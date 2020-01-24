@@ -51,12 +51,10 @@ const routes = [
       auth: {roles: 2, redirect: {name: 'login'}, forbiddenRedirect: '/403'}
     }
   },
-]
+];
 
 const router = new VueRouter({
-  history: true,
-  mode: 'history',
   routes,
-})
+});
 
 export default router

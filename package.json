@@ -21,7 +21,8 @@
         "sass": "^1.23.0",
         "sass-loader": "^8.0.0",
         "vue": "^2.6.10",
-        "vue-template-compiler": "^2.6.10"
+        "vue-template-compiler": "^2.6.10",
+        "serialize-javascript": ">=2.1.1"
     },
     "dependencies": {
         "@websanova/vue-auth": "^2.21.14-beta",

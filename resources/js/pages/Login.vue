@@ -40,8 +40,8 @@
     methods: {
       login() {
         // get the redirect object
-        var redirect = this.$auth.redirect()
-        var app = this
+        var redirect = this.$auth.redirect();
+        var app = this;
         this.$auth.login({
           params: {
             email: app.email,
