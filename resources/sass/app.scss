@@ -1,14 +1,25 @@
-
 // Fonts
-@import url('https://fonts.googleapis.com/css?family=Nunito');
+@import '~vuetify/dist/vuetify.min.css';
 
 // Variables
 @import 'variables';
 
-// Bootstrap
-@import '~bootstrap/scss/bootstrap';
+// Custom
+@import "Common/common";
 
-.navbar-laravel {
-  background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
-}
+@import "Layouts/layout";
+@import "Layouts/loader";
+
+@import "Login/login";
+
+@import "Modals/modals";
+@import "Modals/repositymodal";
+
+@import "Sidebar/sidebar";
+
+@import "Components/datatable";
+@import "Components/expansion-panel";
+
+
+
+

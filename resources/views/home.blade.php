@@ -15,14 +15,17 @@
 
   <!-- Fonts -->
   <link rel="dns-prefetch" href="https://fonts.gstatic.com">
-  <link href="https://fonts.googleapis.com/css?family=Raleway:300,400,600" rel="stylesheet" type="text/css">
 
   <!-- Styles -->
   <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Material+Icons" rel="stylesheet">
+
+  <link rel="shortcut icon" type="image/x-icon" href="{{ asset('images/favicon.ico') }}"/>
+
 </head>
 <body>
 <div id="app">
-  <index></index>
 </div>
 </body>
 </html>

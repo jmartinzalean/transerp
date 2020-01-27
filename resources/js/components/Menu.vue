@@ -28,41 +28,37 @@
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
-        routes: {
-          // UNLOGGED
-          unlogged: [
-            {
-              name: 'Inscription',
-              path: 'register'
-            },
-            {
-              name: 'Connexion',
-              path: 'login'
-            }
-          ],
+    export default {
+        data() {
+            return {
+                routes: {
+                    // UNLOGGED
+                    unlogged: [
+                    {
+                      name: 'Connexion',
+                      path: 'login'
+                    }
+                    ],
 
-          // LOGGED USER
-          user: [
-            {
-              name: 'Dashboard',
-              path: 'dashboard'
-            }
-          ],
-          // LOGGED ADMIN
-          admin: [
-            {
-              name: 'Dashboard',
-              path: 'admin.dashboard'
-            }
-          ]
+                    // LOGGED USER
+                    user: [
+                    {
+                      name: 'Dashboard',
+                      path: 'dashboard'
+                    }
+                    ],
+                    // LOGGED ADMIN
+                    admin: [
+                    {
+                      name: 'Dashboard',
+                      path: 'admin.dashboard'
+                    }
+                    ]
+                }
+          }
+        },
+        mounted() {
+          //
         }
-      }
-    },
-    mounted() {
-      //
     }
-  }
 </script>

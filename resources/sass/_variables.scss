@@ -1,20 +1,37 @@
+$font-common : Source Sans Pro,sans-serif;
 
-// Body
-$body-bg: #f8fafc;
+$primary: #2f2248;
+$secondary: #e2cde1;
+$accent: #8c9eff;
+$error: #b71c1c;
+$blue_forte: #370ee2;
+$blue_light: #0abbe2;
+$blue_light_b: #0b8ce2;
+$grey: #9FA7B3;
+$icons: #48465E;
+$white: #FFFFFF;
+$red_sql: #ff6961;
+$black: #00000f;
+$blue_sql: #86d8f7;
 
-// Typography
-$font-family-sans-serif: "Nunito", sans-serif;
-$font-size-base: 0.9rem;
-$line-height-base: 1.6;
+$bg-primary: $primary;
+$bg-secondary: $secondary;
+$bg-accent: $accent;
+$bg-error: $error;
+$bg-blueforte: $blue_forte;
+$bg-blue_light: $blue_light;
+$bg-blue_light_b: $blue_light_b;
+$bg-grey: $grey;
+$bg-icons: $icons;
+$bg-white: $white;
+$bg-red_sql: $red_sql;
+$bg-black: $black;
+$bg-blue_sql: $blue_sql;
 
-// Colors
-$blue: #3490dc;
-$indigo: #6574cd;
-$purple: #9561e2;
-$pink: #f66D9b;
-$red: #e3342f;
-$orange: #f6993f;
-$yellow: #ffed4a;
-$green: #38c172;
-$teal: #4dc0b5;
-$cyan: #6cb2eb;
+$class-padding: pd !default;
+
+@for $i from 1 through 50{
+  .#{$class-padding}-#{$i} {
+      padding: $i + 0px !important;
+  }
+}
