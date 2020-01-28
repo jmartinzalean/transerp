@@ -9,6 +9,9 @@ class Authenticate extends Middleware
 {
     public function handle($request, Closure $next, ...$guards)
     {
+        if(config('app.env') == 'local'){
+            return $next($request);
+        }
         if ($this->authenticate($request, $guards) === 'authentication_error') {
             return response()->json(['error'=>'Unauthorized']);
         }

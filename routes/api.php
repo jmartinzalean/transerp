@@ -29,4 +29,5 @@ Route::group(['middleware' => 'auth:api'], function(){
     // Users
     Route::get('users', 'UserController@index')->middleware('isAdmin');
     Route::get('users/{id}', 'UserController@show')->middleware('isAdminOrSelf');
+    Route::get('cities/states', 'Api\CitiesController@getCities')->name('cities.states');
 });
