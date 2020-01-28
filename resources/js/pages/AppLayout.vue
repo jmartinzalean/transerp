@@ -1,6 +1,7 @@
 <template>
     <v-app id="inspire" :class="{scrolloff : notScroll}">
         <v-navigation-drawer id="sidebar"
+                             v-model="drawer"
                              app
         >
             <sidebar-menu></sidebar-menu>
@@ -9,9 +10,8 @@
         <v-app-bar
                 app
                 id="topbar"
-                :absolute="true"
-                height="250"
         >
+            <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
         </v-app-bar>
 
         <v-content id="content">
@@ -51,7 +51,8 @@
         data() {
             return {
                 isActive : true,
-                notScroll: false
+                notScroll: false,
+                drawer: null,
             };
         },
         methods: {

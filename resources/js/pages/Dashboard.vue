@@ -19,7 +19,6 @@
         },
         created() {
             this.$emit('loadevent',{'active' : false });
-            this.getCities();
         },
         methods: {
 

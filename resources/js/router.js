@@ -5,6 +5,7 @@ import Home from './pages/AppLayout';
 import Login from './pages/Login';
 import AdminDashboard from './pages/admin/Dashboard';
 import Dashboard from './pages/Dashboard';
+import Clients from './pages/admin/clients/ClientIndex';
 
 // Routes
 const routes = [
@@ -15,7 +16,8 @@ const routes = [
           auth: true
         },
         children : [
-            {path:'', name: 'dashboard', component: Dashboard}
+            {path:'', name: 'dashboard', component: Dashboard},
+            {path:'clients', name: 'clients', component: Clients}
         ]
     },
     {

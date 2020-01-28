@@ -28,21 +28,22 @@ class ClientModel extends Model
 
     }
 
+
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return CityModel|\Illuminate\Database\Eloquent\Collection
      */
     public function getCity(){
 
-        return $this->hasOne('App\Models\CityModel','id','city_id');
+        return $this->hasOne('App\Models\CityModel','id','city_id')->get();
 
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return ProjectModel[]|\Illuminate\Database\Eloquent\Collection
      */
     public function getProjects(){
 
-        return $this->hasMany('App\Models\ProjectModel','client_id', 'id');
+        return $this->hasMany('App\Models\ProjectModel','client_id', 'id')->get();
 
     }
 

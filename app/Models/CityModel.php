@@ -24,21 +24,31 @@ class CityModel extends Model
 
     }
 
+    /**
+     * @return StateModel|\Illuminate\Database\Eloquent\Collection
+     */
     public function getState(){
 
-        return $this->hasOne('App\Models\StateModel','id','state_id');
+        return $this->hasOne('App\Models\StateModel','id','state_id')->get();
 
     }
 
+
+    /**
+     * @return ClientModel|\Illuminate\Database\Eloquent\Collection
+     */
     public function getClients(){
 
-        return $this->hasMany('App\Models\ClientModel', 'city_id', 'id');
+        return $this->hasMany('App\Models\ClientModel', 'city_id', 'id')->get();
 
     }
 
+    /**
+     * @return EmployeModel|\Illuminate\Database\Eloquent\Collection
+     */
     public function getEmployees(){
 
-        return $this->hasMany('App\Models\EmployeModel', 'city_id', 'id');
+        return $this->hasMany('App\Models\EmployeModel', 'city_id', 'id')->get();
 
     }
 

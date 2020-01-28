@@ -1,11 +1,7 @@
 <template>
-    <nav>
-        <v-row>
-            <v-col>
-                <img id="logo" src="../../../img/logo.jpg">
-            </v-col>
-        </v-row>
-        <v-list dense class="collection">
+    <div>
+        <img id="logo" src="../../../img/logo.jpg">
+        <v-list dense>
             <!--UNLOGGED-->
             <v-list-item link="link" v-if="!$auth.check()" v-for="(route, key) in routes.unlogged" v-bind:key="route.path" class="collection-item" :to="{ name : route.path }">
                 <v-list-item-action>
@@ -51,7 +47,7 @@
                 </v-list-item-content>
             </v-list-item>
         </v-list>
-    </nav>
+    </div>
 </template>
 
 <script>
@@ -83,6 +79,10 @@
                         {
                             name: 'Dashboard',
                             path: 'admin.dashboard'
+                        },
+                        {
+                            name: 'Clients',
+                            path: 'clients'
                         }
                     ]
                 }
