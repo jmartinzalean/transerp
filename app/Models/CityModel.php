@@ -8,6 +8,9 @@ class CityModel extends Model
 {
     protected $table = 'cities';
 
+    /**
+     * @return CityModel[]|\Illuminate\Database\Eloquent\Collection
+     */
     public function getCities(){
 
         return self::all();
@@ -25,7 +28,18 @@ class CityModel extends Model
     }
 
     /**
-     * @return StateModel|\Illuminate\Database\Eloquent\Collection
+     * @param $stateId
+     * @return CityModel[]|\Illuminate\Database\Eloquent\Collection
+     */
+    public function getCitiesByStateId($stateId){
+
+        return self::all()->where('state_id','like', $stateId);
+
+    }
+
+
+    /**
+     * @return StateModel|\Illuminate\Database\Eloquent\Relations\HasOne|object|null
      */
     public function getState(){
 

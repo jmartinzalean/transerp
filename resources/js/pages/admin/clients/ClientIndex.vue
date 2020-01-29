@@ -32,9 +32,7 @@
         </v-data-table>
         <clientmodal
                 :showmodal="ismodalactive"
-                v-model="ismodalactive"
                 :modaldata="modaldata"
-                :new="isnew"
                 @closeButtonModal="closeModal"
         ></clientmodal>
     </v-card>
@@ -108,8 +106,7 @@
                 tablerows : [{}],
                 search : '',
                 modaldata : {},
-                ismodalactive : false,
-                isnew: false,
+                ismodalactive : false
             };
         },
         created() {
@@ -132,7 +129,6 @@
             },
             showModal(e){
                 this.$emit('loadevent',{'active' : true });
-                this.$set(this, 'isnew', true);
                 this.$set(this, 'modaldata', e);
                 this.$set(this, 'ismodalactive', true);
 
