@@ -6,6 +6,7 @@ import Login from './pages/Login';
 import AdminDashboard from './pages/admin/Dashboard';
 import Dashboard from './pages/Dashboard';
 import Clients from './pages/admin/clients/ClientIndex';
+import Project from './pages/admin/projects/ProjectIndex';
 
 // Routes
 const routes = [
@@ -17,7 +18,8 @@ const routes = [
         },
         children : [
             {path:'', name: 'dashboard', component: Dashboard},
-            {path:'clients', name: 'clients', component: Clients}
+            {path:'clients', name: 'clients', component: Clients},
+            {path:'projects', name: 'projects', component: Project}
         ]
     },
     {

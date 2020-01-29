@@ -28,11 +28,11 @@ class StateModel extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return CityModel|\Illuminate\Database\Eloquent\Relations\HasMany|object|null
      */
     public function getCities(){
 
-        return $this->hasMany('App\Models\CityModel', 'state_id', 'id');
+        return $this->hasMany('App\Models\CityModel', 'state_id', 'id')->first();
 
     }
 }

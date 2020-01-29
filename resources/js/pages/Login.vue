@@ -71,7 +71,9 @@
                 loginerror: this.$t("error.login"),
             }
         },
-
+        created(){
+            this.$emit('loadevent',{'active' : false });
+        },
         methods: {
             login() {
                 // get the redirect object

@@ -27,21 +27,23 @@ class IncomeModel extends Model
 
     }
 
+
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return ProjectServiceModel|\Illuminate\Database\Eloquent\Relations\HasOne|object|null
      */
     public function getProjectService(){
 
-        return $this->hasOne('App\Models\ProjectServiceModel', 'id', 'project_service_id');
+        return $this->hasOne('App\Models\ProjectServiceModel', 'id', 'project_service_id')->first();
 
     }
 
+
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return WorkPartModel|\Illuminate\Database\Eloquent\Relations\HasOne|object|null
      */
     public function getWorkpart(){
 
-        return $this->hasOne('App\Models\WorkPartModel', 'id', 'workpart_id');
+        return $this->hasOne('App\Models\WorkPartModel', 'id', 'workpart_id')->first();
 
     }
 }

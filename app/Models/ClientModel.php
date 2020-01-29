@@ -30,11 +30,11 @@ class ClientModel extends Model
 
 
     /**
-     * @return CityModel|\Illuminate\Database\Eloquent\Collection
+     * @return CityModel|\Illuminate\Database\Eloquent\Relations\HasOne|object|null
      */
     public function getCity(){
 
-        return $this->hasOne('App\Models\CityModel','id','city_id')->get();
+        return $this->hasOne('App\Models\CityModel','id','city_id')->first();
 
     }
 

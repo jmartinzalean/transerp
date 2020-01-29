@@ -27,30 +27,33 @@ class ProjectServiceModel extends Model
 
     }
 
+
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return ProjectModel|\Illuminate\Database\Eloquent\Relations\HasOne|object|null
      */
     public function getProject(){
 
-        return $this->hasOne('App\Models\ProjectModel', 'id', 'project_id');
+        return $this->hasOne('App\Models\ProjectModel', 'id', 'project_id')->first();
 
     }
 
+
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return UnitModel|\Illuminate\Database\Eloquent\Relations\HasOne|object|null
      */
     public function getUnit(){
 
-        return $this->hasOne('App\Models\UnitModel', 'id', 'unit_id');
+        return $this->hasOne('App\Models\UnitModel', 'id', 'unit_id')->first();
 
     }
 
+
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return ServiceModel|\Illuminate\Database\Eloquent\Relations\HasOne|object|null
      */
     public function getService(){
 
-        return $this->hasOne('App\Models\ServiceModel', 'id', 'service_id');
+        return $this->hasOne('App\Models\ServiceModel', 'id', 'service_id')->first();
 
     }
 

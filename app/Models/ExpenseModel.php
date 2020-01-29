@@ -27,21 +27,23 @@ class ExpenseModel extends Model {
 
     }
 
+
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return ExpenseTypeModel|\Illuminate\Database\Eloquent\Relations\HasOne|object|null
      */
     public function getExpenseType(){
 
-        return $this->hasOne('App\Models\ExpenseTypeModel', 'id', 'expense_type_id');
+        return $this->hasOne('App\Models\ExpenseTypeModel', 'id', 'expense_type_id')->first();
 
     }
 
+
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return WorkPartModel|\Illuminate\Database\Eloquent\Relations\HasOne|object|null
      */
     public function getWorkpart(){
 
-        return $this->hasOne('App\Models\WorkPartModel', 'id', 'workpart_id');
+        return $this->hasOne('App\Models\WorkPartModel', 'id', 'workpart_id')->first();
 
     }
 }

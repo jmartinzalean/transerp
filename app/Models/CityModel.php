@@ -29,7 +29,7 @@ class CityModel extends Model
      */
     public function getState(){
 
-        return $this->hasOne('App\Models\StateModel','id','state_id')->get();
+        return $this->hasOne('App\Models\StateModel','id','state_id')->first();
 
     }
 

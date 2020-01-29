@@ -1,6 +1,25 @@
 <template>
     <div>
-        <img id="logo" src="../../../img/logo.jpg">
+        <v-row>
+            <v-col
+                    :xs="12"
+                    :sm="12"
+                    :md="12"
+                    :lg="6"
+                    class="logo-title"
+            >
+                <img id="logo" src="../../../img/logo.jpg">
+            </v-col>
+            <v-col
+                    :xs="12"
+                    :sm="12"
+                    :md="12"
+                    :lg="6"
+                    class="logo-title"
+            >
+                <p class="text-center title">{{appname}}</p>
+            </v-col>
+        </v-row>
         <v-list dense>
             <!--UNLOGGED-->
             <v-list-item link="link" v-if="!$auth.check()" v-for="(route, key) in routes.unlogged" v-bind:key="route.path" class="collection-item" :to="{ name : route.path }">
@@ -70,22 +89,27 @@
                     // LOGGED USER
                     user: [
                         {
-                            name: 'Dashboard',
+                            name: this.$t("pages.dashboard"),
                             path: 'dashboard'
                         }
                     ],
                     // LOGGED ADMIN
                     admin: [
                         {
-                            name: 'Dashboard',
-                            path: 'admin.dashboard'
+                            name: this.$t("pages.dashboard"),
+                            path: 'dashboard'
                         },
                         {
-                            name: 'Clients',
+                            name: this.$t("pages.clients"),
                             path: 'clients'
+                        },
+                        {
+                            name: this.$t("pages.projects"),
+                            path: 'projects'
                         }
                     ]
-                }
+                },
+                appname: this.$t("app.name"),
             }
         },
     }

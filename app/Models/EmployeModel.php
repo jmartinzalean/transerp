@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\User;
 use Illuminate\Database\Eloquent\Model;
 
 class EmployeModel extends Model
@@ -28,21 +29,23 @@ class EmployeModel extends Model
 
     }
 
+
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return EmployeModel|\Illuminate\Database\Eloquent\Relations\HasOne|object|null
      */
     public function getCity(){
 
-        return $this->hasOne('App\Models\EmployeModel', 'id', 'city_id');
+        return $this->hasOne('App\Models\EmployeModel', 'id', 'city_id')->first();
 
     }
 
+
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return User|\Illuminate\Database\Eloquent\Relations\HasOne|object|null
      */
     public function getUser(){
 
-        return $this->hasOne('App\User', 'id', 'user_id');
+        return $this->hasOne('App\User', 'id', 'user_id')->first();
 
     }
 

@@ -1,5 +1,5 @@
 <template>
-    <v-app id="inspire" :class="{scrolloff : notScroll}">
+    <div>
         <v-navigation-drawer id="sidebar"
                              v-model="drawer"
                              app
@@ -11,7 +11,8 @@
                 app
                 id="topbar"
         >
-            <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
+            <v-app-bar-nav-icon class="white" @click.stop="drawer = !drawer" />
+            <v-toolbar-title style="color:#fff">{{currentTitle}}</v-toolbar-title>
         </v-app-bar>
 
         <v-content id="content">
@@ -25,18 +26,15 @@
                 >
                     <v-col class="text-center">
                         <router-view
+                                @loadeventchild="loadStatus"
+                                @scrolleventchild="scrollStatus"
                                 class="container"
-                                @loadevent="loadStatus"
-                                @scrollevent="scrollStatus"
                         ></router-view>
                     </v-col>
                 </v-row>
             </v-container>
         </v-content>
-        <v-overlay :value="{isActive}" v-model="isActive">
-            <v-progress-circular indeterminate size="64"></v-progress-circular>
-        </v-overlay>
-    </v-app>
+    </div>
 </template>
 
 <script>
@@ -48,27 +46,27 @@
         components: {
             SidebarMenu
         },
+        props:{
+            pagetitle:''
+        },
         data() {
             return {
-                isActive : true,
-                notScroll: false,
                 drawer: null,
+                currentTitle: this.pagetitle
             };
         },
         methods: {
             loadStatus(e) {
-                this.isActive = e.active;
+                this.$emit('loadevent',{'active' : e.active });
             },
             scrollStatus(e){
-                this.notScroll = e.scroll;
+                this.$emit('scrollevent',{'active' : e.active });
             }
         },
         watch: {
-            $route (to, from) {
-                this.$set(this, 'isActive', true);
-                this.$set(this, 'notScroll', false);
+            pagetitle(){
+                this.$set(this, 'currentTitle', this.pagetitle)
             }
         }
-
     };
 </script>

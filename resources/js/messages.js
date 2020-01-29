@@ -11,6 +11,11 @@ export const messages = {
         error: {
             loading: "Error cargando {obj}",
             login: "Usuario o contraseña incorrectos"
+        },
+        pages:{
+            clients: "Clientes",
+            dashboard: "Dashboard",
+            projects: "Obras"
         }
     },
 };

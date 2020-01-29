@@ -27,21 +27,23 @@ class WorkPartTruckModel extends Model
 
     }
 
+
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return TruckModel|\Illuminate\Database\Eloquent\Relations\HasOne|object|null
      */
     public function getTruck(){
 
-        return $this->hasOne('App\Models\TruckModel', 'id', 'truck_id');
+        return $this->hasOne('App\Models\TruckModel', 'id', 'truck_id')->first();
 
     }
 
+
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return WorkPartModel|\Illuminate\Database\Eloquent\Relations\HasOne|object|null
      */
     public function getWorkPart(){
 
-        return $this->hasOne('App\Models\WorkPartModel', 'id', 'workpart_id');
+        return $this->hasOne('App\Models\WorkPartModel', 'id', 'workpart_id')->first();
 
     }
 

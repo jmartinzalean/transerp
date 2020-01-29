@@ -151,6 +151,8 @@ return [
          * Package Service Providers...
          */
 
+        EllipseSynergie\ApiResponse\Laravel\ResponseServiceProvider::class,
+
         /*
          * Application Service Providers...
          */

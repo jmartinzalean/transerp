@@ -37,12 +37,13 @@ class ProjectModel extends Model
 
     }
 
+
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return ClientModel|\Illuminate\Database\Eloquent\Relations\HasOne|object|null
      */
     public function getClient(){
 
-        return $this->hasOne('App\Models\ClientModel', 'id', 'client_id');
+        return $this->hasOne('App\Models\ClientModel', 'id', 'client_id')->first();
 
     }
 
