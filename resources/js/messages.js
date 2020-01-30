@@ -16,7 +16,8 @@ export const messages = {
         pages:{
             clients: "Clientes",
             dashboard: "Dashboard",
-            projects: "Obras"
+            projects: "Obras",
+            login: "TransErp Acceso"
         }
     },
 };

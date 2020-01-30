@@ -21,7 +21,7 @@ class CitiesTransformer extends TransformerAbstract {
 
         return [
             'id' => $cityModel->getAttribute('id'),
-            'name' => $cityModel->getAttribute('name'),
+            'name' => ucwords($cityModel->getAttribute('name')),
         ];
 
     }

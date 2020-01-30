@@ -18,7 +18,7 @@
             };
         },
         created() {
-            this.$emit('loadevent',{'active' : false });
+            this.$emit('loadeventchild',{'active' : false });
         },
         methods: {
 

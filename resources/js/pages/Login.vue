@@ -20,7 +20,7 @@
                                     dark
                                     flat
                             >
-                                <v-toolbar-title>Login form</v-toolbar-title>
+                                <v-toolbar-title>{{currentTitle}}</v-toolbar-title>
                                 <v-spacer />
                             </v-toolbar>
                             <v-card-text>
@@ -69,6 +69,7 @@
                 password: null,
                 haserror: false,
                 loginerror: this.$t("error.login"),
+                currentTitle:this.$t("pages.login"),
             }
         },
         created(){
@@ -86,7 +87,7 @@
                     },
                     success: function() {
                         // handle redirection
-                        const redirectTo = redirect ? redirect.from.name : this.$auth.user().role === 2 ? 'admin.dashboard' : 'dashboard';
+                        const redirectTo = redirect ? redirect.from.name : this.$auth.user().role === 2 ? 'dashboard' : 'dashboard';
                         this.$router.push({name: redirectTo})
                     },
                     error: function() {

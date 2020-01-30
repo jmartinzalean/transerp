@@ -18,9 +18,6 @@
                 class="pd-30 c-pointer"
                 @click:row="showModal"
         >
-            <template v-slot:item.phone="{ item }">
-                {{ item.phone }}<span v-show="item.mobil"> {{ item.mobil }}</span>
-            </template>
             <template v-slot:item.projectscount="{ item }">
                 <v-chip class="teal accent-1 c-pointer">
                     <router-link :to="/projects/+item.id">
@@ -68,8 +65,15 @@
                         filterable: true
                     },
                     {
-                        text: "Telefonos",
+                        text: "Fijo",
                         value: "phone",
+                        align: 'start',
+                        sortable: true,
+                        filterable: true
+                    },
+                    {
+                        text: "Móvil",
+                        value: "mobil",
                         align: 'start',
                         sortable: true,
                         filterable: true

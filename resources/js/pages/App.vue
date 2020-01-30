@@ -20,7 +20,7 @@
                 isActive : true,
                 notScroll: false,
                 drawer: null,
-                pageTitle: 'dashboard'
+                pageTitle: 'login'
             };
         },
         methods: {

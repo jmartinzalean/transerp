@@ -22,24 +22,24 @@ class ClientsTransformer extends TransformerAbstract {
 
         $client = new Client($clientModel);
 
-        $city = array('name' => 'sin asignar', 'id' => 0);
+        $city = array('name' => '-', 'id' => 0);
         $state = $city;
         if($client->getCity()){
             $city = array(
                 'id' => $client->getCity()->getAttribute('id'),
-                'name' => $client->getCity()->getAttribute('name')
+                'name' => ucwords($client->getCity()->getAttribute('name'))
             );
             $state = array(
                 'id' => $client->getState()->getAttribute('id'),
-                'name' => $client->getState()->getAttribute('name')
+                'name' => ucwords($client->getState()->getAttribute('name'))
             );
         }
 
         return [
             'id' => $client->getId(),
-            'name' => $client->getName(),
+            'name' => ucwords($client->getName()),
             'tax_number' => $client->getTaxNumber(),
-            'contact_name' => $client->getContactName(),
+            'contact_name' => ucwords($client->getContactName()),
             'address' => $client->getAddress(),
             'cp' => $client->getCp(),
             'latitude' => $client->getLatitude(),

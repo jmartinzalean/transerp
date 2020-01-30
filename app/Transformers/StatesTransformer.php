@@ -21,7 +21,7 @@ class StatesTransformer extends TransformerAbstract {
 
         return [
             'id' => $stateModel->getAttribute('id'),
-            'name' => $stateModel->getAttribute('name'),
+            'name' => ucwords($stateModel->getAttribute('name')),
         ];
 
     }

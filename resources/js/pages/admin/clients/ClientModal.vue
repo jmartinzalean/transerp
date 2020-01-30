@@ -92,6 +92,7 @@
                                             label="Provincia"
                                             placeholder="Buscar una provincia"
                                             return-object
+                                            @input="setStateEvent"
                                     ></v-autocomplete>
                                 </v-col>
                                 <v-col
@@ -257,6 +258,11 @@
                 }).catch(e => {
                     console.log(e);
                 });
+            },
+            setStateEvent(e){
+                if(e.id !== 0 && e.id !== undefined){
+                    this.getClities(e.id);
+                }
             }
         },
         watch:{
