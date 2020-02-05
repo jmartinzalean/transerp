@@ -1,6 +1,13 @@
 <template>
     <v-card>
         <v-card-title>
+            <v-btn
+                    :icon="true"
+                    @click="showNewModal"
+                    class="secondary"
+            >
+                <v-icon color="white">group_add</v-icon>
+            </v-btn>
             <v-spacer></v-spacer>
             <v-text-field
                     v-model="search"
@@ -18,46 +25,48 @@
                 class="pd-30 c-pointer"
                 @click:row="showModal"
         >
-            <template v-slot:item.phone="{ item }">
-                {{ item.phone }}<span v-show="item.mobil"> {{ item.mobil }}</span>
-            </template>
-            <template v-slot:item.projectscount="{ item }">
+            <template v-slot:item.servicescount="{ item }">
                 <v-chip class="teal accent-1 c-pointer">
-                    <router-link :to="/projects/+item.id">
-                        {{ item.projectscount }} Obras
+                    <router-link :to="/services/+item.id">
+                        {{ item.servicescount }} Servicios
                     </router-link>
                 </v-chip>
             </template>
 
         </v-data-table>
-        <clientmodal
+        <projectmodal
                 :showmodal="ismodalactive"
-                v-model="ismodalactive"
                 :modaldata="modaldata"
-                :new="isnew"
                 @closeButtonModal="closeModal"
-        ></clientmodal>
+        ></projectmodal>
     </v-card>
 
 </template>
 
 <script>
 
-    import ClientModal from '../../../pages/admin/clients/ClientModal';
+    import ProjectModal from '../../../pages/admin/projects/ProjectModal';
 
     import Axios from 'axios';
 
     export default {
-        name: "ClientIndex",
+        name: "ProjectIndex",
         components : {
-            clientmodal : ClientModal,
+            projectmodal : ProjectModal,
         },
         data() {
             return {
                 tablecolums : [
                     {
-                        text: "Nº Fiscal",
-                        value: "tax_number",
+                        text: "Nº Obra",
+                        value: "id",
+                        align: 'start',
+                        sortable: true,
+                        filterable: true
+                    },
+                    {
+                        text: "Empresa",
+                        value: "client_name",
                         align: 'start',
                         sortable: true,
                         filterable: true
@@ -70,46 +79,38 @@
                         filterable: true
                     },
                     {
-                        text: "Telefonos",
-                        value: "phone",
+                        text: "Fecha Inicio",
+                        value: "date_start",
                         align: 'start',
                         sortable: true,
                         filterable: true
                     },
                     {
-                        text: "Mail",
-                        value: "email",
+                        text: "Fecha Fin",
+                        value: "date_end",
                         align: 'start',
                         sortable: true,
                         filterable: true
                     },
                     {
-                        text: "Localidad",
-                        value: "city.name",
+                        text: "Estado",
+                        value: "status",
                         align: 'start',
                         sortable: true,
                         filterable: true
                     },
                     {
-                        text: "Provincia",
-                        value: "state.name",
+                        text: "Servicios",
+                        value: "servicescount",
                         align: 'start',
                         sortable: true,
                         filterable: true
-                    },
-                    {
-                        text: "Obras",
-                        value: "projectscount",
-                        align: 'center',
-                        sortable: true,
-                        filterable: false
                     }
                 ],
                 tablerows : [{}],
                 search : '',
                 modaldata : {},
-                ismodalactive : false,
-                isnew: false,
+                ismodalactive : false
             };
         },
         created() {
@@ -121,9 +122,9 @@
 
             getRows() {
 
-                Axios.get('/clients/',
+                Axios.get('/projects/',
                 ).then(response => {
-                    this.$set(this, 'tablerows', response.data.clients );
+                    this.$set(this, 'tablerows', response.data.projects );
                     this.$emit('loadeventchild',{'active' : false });
                 }).catch(e => {
                     console.log(e);
@@ -132,15 +133,27 @@
             },
             showModal(e){
                 this.$emit('loadevent',{'active' : true });
-                this.$set(this, 'isnew', true);
                 this.$set(this, 'modaldata', e);
                 this.$set(this, 'ismodalactive', true);
 
             },
+            showNewModal(){
+                this.$emit('loadevent',{'active' : true });
+                this.$set(this, 'modaldata', {
+                    id:0,
+                    name:'',
+                    client_id:'',
+                    client_name:'',
+                    date_start:0,
+                    date_end:0,
+                    status:'Activo',
+                    servicescount:0
+                });
+                this.$set(this, 'ismodalactive', true);
+            },
             closeModal(e){
                 this.$set(this, 'ismodalactive', false );
             }
-            // TODO, FIN
 
         }
     }

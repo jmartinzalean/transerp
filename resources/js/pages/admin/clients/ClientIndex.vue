@@ -1,6 +1,13 @@
 <template>
     <v-card>
         <v-card-title>
+            <v-btn
+                    :icon="true"
+                    @click="showNewModal"
+                    class="secondary"
+            >
+                <v-icon color="white">group_add</v-icon>
+            </v-btn>
             <v-spacer></v-spacer>
             <v-text-field
                     v-model="search"
@@ -136,6 +143,28 @@
                 this.$set(this, 'modaldata', e);
                 this.$set(this, 'ismodalactive', true);
 
+            },
+            showNewModal(){
+                this.$emit('loadevent',{'active' : true });
+                this.$set(this, 'modaldata', {
+                    id:0,
+                    name:'',
+                    tax_number:'',
+                    contact_name:'',
+                    address:'',
+                    cp:null,
+                    latitude:0,
+                    longitude:0,
+                    phone:null,
+                    mobil:null,
+                    fax:null,
+                    email:null,
+                    description:'',
+                    city:{id:0,name:''},
+                    state:{id:0,name:''},
+                    projectscount:0
+                });
+                this.$set(this, 'ismodalactive', true);
             },
             closeModal(e){
                 this.$set(this, 'ismodalactive', false );

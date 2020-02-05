@@ -18,6 +18,9 @@ import Vuetify from 'vuetify';
 import vuetifyapp from './plugins/vuetify';
 // Cookies
 import VueCookies from 'vue-cookies';
+// Validate
+import Vuelidate from 'vuelidate'
+
 
 // Set Vue globally
 window.Vue = Vue;
@@ -34,6 +37,8 @@ Vue.use(I18n);
 Vue.use(VueAxios, axios);
 axios.defaults.baseURL = `${process.env.MIX_API_URL}`;
 Vue.use(VueAuth, auth);
+
+Vue.use(Vuelidate);
 
 // I18n
 const i18n = new I18n({

@@ -3,16 +3,15 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\ClientModel;
-use App\Transformers\ClientsTransformer;
+use App\Models\ProjectModel;
+use App\Transformers\ProjectsTransformer;
 use Illuminate\Http\Request;
 use EllipseSynergie\ApiResponse\Contracts\Response;
-use Illuminate\Support\Facades\Auth;
 
-class ClientsController extends Controller
+class ProjectsController extends Controller
 {
     /**
-     * @var ClientModel $elementModel
+     * @var ProjectModel $model
      */
     private $model;
 
@@ -22,49 +21,28 @@ class ClientsController extends Controller
     private $response;
 
     /**
-     * Client Api constructor.
+     * Project Api constructor.
      * @param Response $response
      */
     public function __construct(Response $response) {
 
         $this->response = $response;
-        $this->model = new ClientModel();
+        $this->model = new ProjectModel();
 
     }
 
     /**
-     * Salida para endpoint Clients
+     * Salida para endpoint Project
      * @param Request $request
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      */
-    public function getClients(Request $request) {
+    public function getProjects(Request $request) {
 
-        return $this->response->withCollection($this->model->getClients(), new ClientsTransformer(),'clients');
-
-    }
-
-
-    /**
-     * @param string $name
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function getClientByName($name){
-
-        return \response()->json(array('find'=> $this->model->getClientByName($name)->count()));
+        return $this->response->withCollection($this->model->getProjects(), new ProjectsTransformer(),'projects');
 
     }
 
-    /**
-     * @param string $nif
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function getClientByNif($nif){
-
-        return \response()->json(array('count'=> $this->model->getClientByNif($nif)->count()));
-
-    }
-
-    public function setClient(Request $request){
+    public function setProject(Request $request){
 
         if(!$request->has(array('id', 'name', 'tax_number'))){
 
@@ -81,10 +59,10 @@ class ClientsController extends Controller
         }
 
         $store = $this->model->getInstance();
-        $store->setAttribute('name', strtolower($request->get('name', '')));
+        $store->setAttribute('name', $request->get('name', ''));
         $store->setAttribute('tax_number', $request->get('tax_number', ''));
-        $store->setAttribute('contact_name', strtolower($request->get('contact_name', '')));
-        $store->setAttribute('address', strtolower($request->get('address', '')));
+        $store->setAttribute('contact_name', $request->get('contact_name', ''));
+        $store->setAttribute('address', $request->get('address', ''));
         $store->setAttribute('cp', $request->get('cp', ''));
         $store->setAttribute('latitude', $request->get('latitude', ''));
         $store->setAttribute('longitude', $request->get('longitude', ''));
@@ -92,7 +70,7 @@ class ClientsController extends Controller
         $store->setAttribute('phone_number', $request->get('phone', ''));
         $store->setAttribute('mobil_number', $request->get('mobil', ''));
         $store->setAttribute('fax_number', $request->get('fax', ''));
-        $store->setAttribute('email', strtolower($request->get('email', '')));
+        $store->setAttribute('email', $request->get('email', ''));
         $store->setAttribute('description', $request->get('description', ''));
 
         if($request->get('city', array('id'=>0))['id'] !== 0){
@@ -107,7 +85,7 @@ class ClientsController extends Controller
 
     }
 
-    public function updateClient(Request $request, $id){
+    public function updateProject(Request $request, $id){
 
         if(!$request->has(array('id', 'name', 'tax_number')) && ! is_int($id) ){
 
@@ -124,11 +102,11 @@ class ClientsController extends Controller
 
         }
 
-        $store = $this->model->getClientById($id);
-        $store->setAttribute('name', strtolower($request->get('name', '')));
+        $store = $this->model->getProjectById($id);
+        $store->setAttribute('name', $request->get('name', ''));
         $store->setAttribute('tax_number', $request->get('tax_number', ''));
-        $store->setAttribute('contact_name', strtolower($request->get('contact_name', '')));
-        $store->setAttribute('address', strtolower($request->get('address', '')));
+        $store->setAttribute('contact_name', $request->get('contact_name', ''));
+        $store->setAttribute('address', $request->get('address', ''));
         $store->setAttribute('cp', $request->get('cp', ''));
         $store->setAttribute('latitude', $request->get('latitude', ''));
         $store->setAttribute('longitude', $request->get('longitude', ''));
@@ -136,7 +114,7 @@ class ClientsController extends Controller
         $store->setAttribute('phone_number', $request->get('phone', ''));
         $store->setAttribute('mobil_number', $request->get('mobil', ''));
         $store->setAttribute('fax_number', $request->get('fax', ''));
-        $store->setAttribute('email', strtolower($request->get('email', '')));
+        $store->setAttribute('email', $request->get('email', ''));
         $store->setAttribute('description', $request->get('description', ''));
 
         if($request->get('city', array('id'=>0))['id'] !== 0){

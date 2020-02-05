@@ -29,11 +29,11 @@ class ProjectModel extends Model
 
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function getProjectService(){
+    public function getProjectServices(){
 
-        return $this->hasMany('App\Models\ProjectServiceModel', 'project_id', 'id');
+        return $this->hasMany('App\Models\ProjectServiceModel', 'project_id', 'id')->get();
 
     }
 
@@ -53,6 +53,12 @@ class ProjectModel extends Model
     public function getWorkParts(){
 
         return $this->hasMany('App\Models\WorkPartModel', 'project_id', 'id');
+
+    }
+
+    public function getInstance($data = array()){
+
+        return new self($data);
 
     }
 }

@@ -36,4 +36,14 @@ Route::group(['middleware' => 'auth:api'], function(){
     Route::get('states', 'Api\StatesController@getStates')->name('states');
 
     Route::get('clients', 'Api\ClientsController@getClients')->name('clients');
+    Route::get('client/name/{name}', 'Api\ClientsController@getClientByName')->name('client.name');
+    Route::get('client/nif/{nif}', 'Api\ClientsController@getClientBynif')->name('client.nif');
+
+    Route::group(['middleware' => 'isAdmin'], function() {
+        Route::post('clients', 'Api\ClientsController@setClient')->name('clients.store');
+        Route::put('clients/{id}', 'Api\ClientsController@updateClient')->name('clients.update');
+    });
+
+    Route::get('projects', 'Api\ProjectsController@getProjects')->name('projects');
+
 });

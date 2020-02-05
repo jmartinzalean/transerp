@@ -30,6 +30,27 @@ class ClientModel extends Model
 
 
     /**
+     * @param string $name
+     * @return ClientModel[]|\Illuminate\Database\Eloquent\Collection
+     */
+    public function getClientByName($name){
+
+        return self::all()->where('name', '=', $name);
+
+    }
+
+    /**
+     * @param string $nif
+     * @return ClientModel[]|\Illuminate\Database\Eloquent\Collection
+     */
+    public function getClientByNif($nif){
+
+        return self::all()->where('tax_number', '=', $nif);
+
+    }
+
+
+    /**
      * @return CityModel|\Illuminate\Database\Eloquent\Relations\HasOne|object|null
      */
     public function getCity(){
@@ -52,7 +73,13 @@ class ClientModel extends Model
      */
     public function getProjectById($id){
 
-        $this->getProjects()->where('projects.id','=',$id);
+        return $this->getProjects()->where('projects.id','=',$id);
+
+    }
+
+    public function getInstance($data = array()){
+
+        return new self($data);
 
     }
 
