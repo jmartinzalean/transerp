@@ -21,6 +21,8 @@ import VueCookies from 'vue-cookies';
 // Validate
 import Vuelidate from 'vuelidate'
 
+import filters from './filters';
+
 
 // Set Vue globally
 window.Vue = Vue;

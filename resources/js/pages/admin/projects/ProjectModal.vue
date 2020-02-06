@@ -33,14 +33,14 @@
                                         :lg="2"
                                 >
                                     <v-text-field
-                                            label="Nombre Empresa"
+                                            label="Nombre Obra"
                                             v-model.trim="$v.formData.name.$model"
                                             required
-                                            :error-messages="NifErrors"
+                                            :error-messages="NameErrors"
                                             :counter="20"
                                             :autofocus="true"
-                                            @input="$v.formData.tax_number.$touch()"
-                                            @blur="$v.formData.tax_number.$touch()"
+                                            @input="$v.formData.name.$touch()"
+                                            @blur="$v.formData.name.$touch()"
                                     ></v-text-field>
                                 </v-col>
 
@@ -51,42 +51,80 @@
                                         :lg="5"
                                 >
                                     <v-text-field
-                                            class="text-capitalize"
-                                            label="Nombre Empresa/Sociedad/Autónomo"
-                                            v-model.trim="$v.formData.name.$model"
+                                            label="Empresa/Sociedad/Autónomo"
+                                            v-model.trim="$v.formData.client_name.$model"
                                             required
-                                            :error-messages="NameErrors"
+                                            :error-messages="ClientErrors"
                                             :counter="100"
-                                            @input="$v.formData.name.$touch()"
-                                            @blur="$v.formData.name.$touch()"
+                                            @input="$v.formData.client_name.$touch()"
+                                            @blur="$v.formData.client_name.$touch()"
                                     ></v-text-field>
                                 </v-col>
                                 <v-col
                                         cols="12"
-                                        :xs="12"
                                         :sm="12"
                                         :md="5"
                                         :lg="5"
                                 >
-                                    <v-text-field
-                                            label="Persona de contacto"
-                                            v-model="formData.contact_name"
-                                    ></v-text-field>
+                                    <v-menu
+                                            v-model="dateStartShow"
+                                            :close-on-content-click="false"
+                                            :nudge-right="40"
+                                            transition="scale-transition"
+                                            offset-y
+                                            min-width="290px"
+                                    >
+                                        <template v-slot:activator="{ on }">
+                                            <v-text-field
+                                                    v-model="DateStartFormated"
+                                                    label="Fecha Inicio"
+                                                    prepend-icon="event"
+                                                    readonly
+                                                    v-on="on"
+                                            ></v-text-field>
+                                        </template>
+                                        <v-date-picker
+                                                v-model="formData.date_start"
+                                                @input="dateStartShow = false"
+                                                locale="es-es"
+                                        ></v-date-picker>
+                                    </v-menu>
                                 </v-col>
                             </v-row>
                             <v-row>
                                 <v-col
                                         cols="12"
-                                        :xs="12"
                                         :sm="12"
-                                        :md="4"
-                                        :lg="4"
+                                        :md="5"
+                                        :lg="5"
                                 >
-                                    <v-text-field
-                                            class="text-capitalize"
-                                            label="Dirección"
-                                            v-model="formData.address"
-                                    ></v-text-field>
+                                    <v-menu
+                                            v-model="dateEndShow"
+                                            :close-on-content-click="false"
+                                            :nudge-right="40"
+                                            transition="scale-transition"
+                                            offset-y
+                                            min-width="290px"
+                                    >
+                                        <template v-slot:activator="{ on }">
+                                            <v-text-field
+                                                    v-model="DateEndFormated"
+                                                    :min="formData.date_start"
+                                                    label="Fecha Fin"
+                                                    prepend-icon="event"
+                                                    readonly
+                                                    :disabled="hasDateStart"
+                                                    v-on="on"
+                                            ></v-text-field>
+                                        </template>
+                                        <v-date-picker
+                                                v-model="formData.date_end"
+                                                @input="dateEndShow = false"
+                                                :min="formData.date_start"
+                                                :show-current="formData.date_start"
+                                                locale="es-es"
+                                        ></v-date-picker>
+                                    </v-menu>
                                 </v-col>
                                 <v-col
                                         cols="12"
@@ -96,116 +134,8 @@
                                         :lg="2"
                                 >
                                     <v-text-field
-                                            label="CP"
-                                            v-model.trim="$v.formData.cp.$model"
-                                            :error-messages="CpErrors"
-                                            :counter="5"
-                                            @input="$v.formData.cp.$touch()"
-                                            @blur="$v.formData.cp.$touch()"
-                                    ></v-text-field>
-                                </v-col>
-                                <v-col
-                                        cols="12"
-                                        :xs="12"
-                                        :sm="12"
-                                        :md="3"
-                                        :lg="3"
-                                >
-                                    <v-autocomplete
-                                            class="text-capitalize"
-                                            v-model="formData.state"
-                                            :items="statesItems"
-                                            item-text="name"
-                                            item-value="id"
-                                            label="Provincia"
-                                            placeholder="Buscar una provincia"
-                                            return-object
-                                            @input="setStateEvent"
-                                    ></v-autocomplete>
-                                </v-col>
-                                <v-col
-                                        cols="12"
-                                        :xs="12"
-                                        :sm="12"
-                                        :md="3"
-                                        :lg="3"
-                                >
-                                    <v-autocomplete
-                                            class="text-capitalize"
-                                            v-model.trim="$v.formData.city.$model"
-                                            :items="citiesItems"
-                                            item-text="name"
-                                            item-value="id"
-                                            label="Localidad"
-                                            placeholder="Busca primero una localidad"
-                                            return-object
-                                            :error-messages="CityErrors"
-                                            required
-                                            @input="$v.formData.city.$touch()"
-                                            @blur="$v.formData.city.$touch()"
-                                    ></v-autocomplete>
-                                </v-col>
-                            </v-row>
-                            <v-row>
-                                <v-col
-                                        cols="12"
-                                        :xs="6"
-                                        :sm="6"
-                                        :md="3"
-                                        :lg="3"
-                                >
-                                    <v-text-field
-                                            label="Fijo"
-                                            v-model="formData.phone"
-                                            v-model.trim="$v.formData.phone.$model"
-                                            :error-messages="PhoneErrors"
-                                            @input="$v.formData.phone.$touch()"
-                                            @blur="$v.formData.phone.$touch()"
-                                    ></v-text-field>
-                                </v-col>
-                                <v-col
-                                        cols="12"
-                                        :xs="6"
-                                        :sm="6"
-                                        :md="3"
-                                        :lg="3"
-                                >
-                                    <v-text-field
-                                            label="Móvil"
-                                            v-model.trim="$v.formData.mobil.$model"
-                                            :error-messages="MobilErrors"
-                                            @input="$v.formData.mobil.$touch()"
-                                            @blur="$v.formData.mobil.$touch()"
-                                    ></v-text-field>
-                                </v-col>
-                                <v-col
-                                        cols="12"
-                                        :xs="6"
-                                        :sm="6"
-                                        :md="3"
-                                        :lg="3"
-                                >
-                                    <v-text-field
-                                            label="Fax"
-                                            v-model.trim="$v.formData.fax.$model"
-                                            :error-messages="FaxErrors"
-                                            @input="$v.formData.fax.$touch()"
-                                            @blur="$v.formData.fax.$touch()"
-                                    ></v-text-field>
-                                </v-col>
-                                <v-col
-                                        cols="12"
-                                        :xs="6"
-                                        :sm="6"
-                                        :md="3"
-                                        :lg="3"
-                                >
-                                    <v-text-field
-                                            label="Email"
-                                            v-model.trim="$v.formData.email.$model"
-                                            :error-messages="EmailErrors"
-                                            @input="$v.formData.email.$touch()"
-                                            @blur="$v.formData.email.$touch()"
+                                            label="Estado"
+                                            v-model.trim="formData.status"
                                     ></v-text-field>
                                 </v-col>
                             </v-row>
@@ -260,9 +190,10 @@
     import VFormBase from 'vuetify-form-base';
     import { required, maxLength, requiredIf, numeric, email } from 'vuelidate/lib/validators';
     import Alerts from "../../../components/Alerts";
+    import moment from 'moment';
 
     export default {
-        name: "ClientModal",
+        name: "ProjectModal",
         props: {
             showmodal : false,
             modaldata : {
@@ -278,9 +209,7 @@
             return {
                 showmodaltop : false,
                 isnew: true,
-                title: this.$t("app.newclient"),
-                citiesItems:[],
-                statesItems:[],
+                title: this.$t("app.newproject"),
                 formData:{
                     id:0,
                     name:'',
@@ -289,10 +218,13 @@
                     date_start:0,
                     date_end:0,
                     status:'Activo',
+                    description:'',
                     servicescount:0
                 },
                 textAlert:false,
-                typeAlert:false
+                typeAlert:false,
+                dateStartShow: false,
+                dateEndShow: false,
             }
         },
         validations: {
@@ -301,35 +233,14 @@
                     required,
                     maxLength: maxLength(100)
                 },
-                tax_number: {
+                client_name: {
                     required,
                     maxLength: maxLength(20)
-                },
-                city: {
-                    required: requiredIf(function(){
-                        return this.formData.state.id !== 0;
-                    })
-                },
-                cp:{
-                    numeric,
-                    maxLength: maxLength(5)
-                },
-                phone:{
-                    numeric
-                },
-                mobil:{
-                    numeric
-                },
-                fax:{
-                    numeric
-                },
-                email:{
-                    email
-                },
+                }
             }
         },
         created(){
-            this.getStates();
+
         },
         methods: {
             closeModal(){
@@ -338,30 +249,6 @@
             setMessage(message, type){
                 this.$set(this, 'textAlert', message);
                 this.$set(this, 'typeAlert', type);
-            },
-            getClities(id){
-                Axios.get('/cities/states/'+id,
-                ).then(response => {
-                    this.$set(this, 'citiesItems', response.data.cities );
-                    this.$v.formData.city.$touch();
-                }).catch(e => {
-                    console.log(e);
-                });
-            },
-            getStates(){
-                Axios.get('/states/',
-                ).then(response => {
-                    this.$set(this, 'statesItems', response.data.states );
-                }).catch(e => {
-                    console.log(e);
-                });
-            },
-            setStateEvent(e){
-                if(e.id !== 0 && e.id !== undefined){
-                    this.$set(this.formData, 'city', {id:0,name:''});
-                    this.setMessage('No se guardará la provincia. Debe elegir una localidad.', 'warning');
-                    this.getClities(e.id);
-                }
             },
             getClient(nif){
                 Axios.get('/client/nif/'+nif,
@@ -380,7 +267,6 @@
                     'clients',
                     this.formData
                 ).then(response => {
-                    console.log(response);
                     if(response.data.status === 'ok' && response.data.id !== undefined){
                         this.$set(this.formData, 'id', response.data.id);
                         this.setMessage('Registro guardado con éxito.', 'success');
@@ -392,7 +278,6 @@
                 });
             },
             updateClient(){
-                console.log(this.formData.id);
                 Axios.put(
                     'clients/' + this.formData.id,
                     this.formData
@@ -417,6 +302,12 @@
                     }
                 }
             },
+            formatDate (date) {
+                if (!date){
+                    return null;
+                }
+                return moment(String(date)).format('DD/MM/YYYY');
+            }
         },
         computed:{
             NameErrors () {
@@ -432,81 +323,27 @@
                 }
                 return errors;
             },
-            NifErrors () {
+            ClientErrors () {
                 const errors = [];
-                if (!this.$v.formData.tax_number.$dirty){
+                if (!this.$v.formData.client_name.$dirty){
                     return errors;
                 }
-                if(!this.$v.formData.tax_number.maxLength){
+                if(!this.$v.formData.client_name.maxLength){
                     errors.push('El campo excede el tamaño máximo');
                 }
-                if(!this.$v.formData.tax_number.required ){
+                if(!this.$v.formData.client_name.required ){
                     errors.push('Campo requerido');
                 }
                 return errors;
             },
-            CityErrors () {
-                const errors = [];
-                if (!this.$v.formData.city.$dirty){
-                    return errors;
-                }
-                if(this.formData.state.id !== 0  && this.$v.formData.$model.city.id === 0){
-                    errors.push('Campo requerido.');
-                }
-                return errors;
+            DateStartFormated(){
+                return this.formatDate(this.formData.date_start);
             },
-            CpErrors () {
-                const errors = [];
-                if (!this.$v.formData.cp.$dirty){
-                    return errors;
-                }
-                if(!this.$v.formData.cp.numeric ){
-                    errors.push('Solo números');
-                }
-                if(!this.$v.formData.cp.maxLength){
-                    errors.push('El campo excede el tamaño máximo');
-                }
-                return errors;
+            DateEndFormated(){
+                return this.formatDate(this.formData.date_end);
             },
-            PhoneErrors () {
-                const errors = [];
-                if (!this.$v.formData.phone.$dirty){
-                    return errors;
-                }
-                if(!this.$v.formData.phone.numeric ){
-                    errors.push('Solo números');
-                }
-                return errors;
-            },
-            MobilErrors () {
-                const errors = [];
-                if (!this.$v.formData.mobil.$dirty){
-                    return errors;
-                }
-                if(!this.$v.formData.mobil.numeric ){
-                    errors.push('Solo números');
-                }
-                return errors;
-            },
-            FaxErrors () {
-                const errors = [];
-                if (!this.$v.formData.fax.$dirty){
-                    return errors;
-                }
-                if(!this.$v.formData.fax.numeric ){
-                    errors.push('Solo números');
-                }
-                return errors;
-            },
-            EmailErrors () {
-                const errors = [];
-                if (!this.$v.formData.email.$dirty){
-                    return errors;
-                }
-                if(!this.$v.formData.email.email){
-                    errors.push('Formato: mail@mail.com');
-                }
-                return errors;
+            hasDateStart(){
+                return (this.formData.date_start === null);
             }
         },
         watch:{
@@ -514,11 +351,6 @@
                 this.$set(this, 'showmodaltop', value)
             },
             modaldata(value){
-                if(value.id !== 0){
-                    if(value.state.id !== 0){
-                        this.getClities(value.state.id);
-                    }
-                }
                 this.$set(this, 'formData', value);
                 this.setMessage(false, false, false);
             }

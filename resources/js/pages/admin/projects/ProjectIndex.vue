@@ -6,7 +6,7 @@
                     @click="showNewModal"
                     class="secondary"
             >
-                <v-icon color="white">group_add</v-icon>
+                <v-icon color="white">add</v-icon>
             </v-btn>
             <v-spacer></v-spacer>
             <v-text-field
@@ -25,6 +25,14 @@
                 class="pd-30 c-pointer"
                 @click:row="showModal"
         >
+            <template v-slot:item.date_start="{ item }">
+                    {{ item.date_start | formatDayMonthYear }}
+            </template>
+
+            <template v-slot:item.date_end="{ item }">
+                    {{ item.date_end | formatDayMonthYear }}
+            </template>
+
             <template v-slot:item.servicescount="{ item }">
                 <v-chip class="teal accent-1 c-pointer">
                     <router-link :to="/services/+item.id">
@@ -52,7 +60,7 @@
     export default {
         name: "ProjectIndex",
         components : {
-            projectmodal : ProjectModal,
+            projectmodal : ProjectModal
         },
         data() {
             return {
@@ -147,6 +155,7 @@
                     date_start:0,
                     date_end:0,
                     status:'Activo',
+                    description:'',
                     servicescount:0
                 });
                 this.$set(this, 'ismodalactive', true);

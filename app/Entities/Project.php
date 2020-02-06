@@ -68,6 +68,15 @@ class Project {
     }
 
     /**
+     * @return mixed
+     */
+    public function getDescription(){
+
+        return $this->model->getAttribute('description');
+
+    }
+
+    /**
      * @return bool
      */
     public function isActive(){

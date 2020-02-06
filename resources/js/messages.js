@@ -7,7 +7,8 @@ export const messages = {
             actions: "Acciones",
             empty: "Vacío",
             logout: "Salir",
-            newclient: "Nuevo Cliente"
+            newclient: "Nuevo Cliente",
+            newproject: "Nueva Obra"
         },
         error: {
             loading: "Error cargando {obj}",

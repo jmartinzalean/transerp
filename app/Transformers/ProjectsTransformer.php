@@ -30,6 +30,7 @@ class ProjectsTransformer extends TransformerAbstract {
             'date_start' => $project->getDateStart(),
             'date_end' => $project->getDateEnd(),
             'status' => ($project->isActive()) ? 'Activo' : 'Inactivo',
+            'description' => $project->getDescription(),
             'servicescount' => $project->countServices()
         ];
 
