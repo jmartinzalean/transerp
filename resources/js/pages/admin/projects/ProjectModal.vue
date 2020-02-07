@@ -6,6 +6,7 @@
                 hide-overlay
                 transition="dialog-bottom-transition"
                 scrollable
+                @input="closeModal"
         >
             <v-card class="repository_modal">
                 <v-toolbar
@@ -14,7 +15,7 @@
                 >
                     <v-btn
                             icon
-                            @click.stop="closeModal()"
+                            @click.stop="closeModal"
                     >
                         <v-icon>close</v-icon>
                     </v-btn>
@@ -28,9 +29,30 @@
                             <v-row>
                                 <v-col
                                         cols="12"
+                                        :xs="12"
                                         :sm="12"
-                                        :md="2"
-                                        :lg="2"
+                                        :md="3"
+                                        :lg="3"
+                                >
+                                    <v-autocomplete
+                                            v-model="formData.client_id"
+                                            :items="clients.toArray()"
+                                            item-text="name"
+                                            item-value="id"
+                                            label="Empresa/Sociedad/Autónomo"
+                                            placeholder="Elije un cliente..."
+                                            return-object
+                                            @input="setClientEvent"
+                                            :error-messages="formData.errors.client_id"
+                                            required
+                                    ></v-autocomplete>
+                                </v-col>
+                                <v-col
+                                        cols="12"
+                                        :xs="12"
+                                        :sm="12"
+                                        :md="4"
+                                        :lg="4"
                                 >
                                     <v-text-field
                                             label="Nombre Obra"
@@ -43,28 +65,12 @@
                                             @blur="$v.formData.name.$touch()"
                                     ></v-text-field>
                                 </v-col>
-
                                 <v-col
                                         cols="12"
-                                        :sm="12"
-                                        :md="5"
-                                        :lg="5"
-                                >
-                                    <v-text-field
-                                            label="Empresa/Sociedad/Autónomo"
-                                            v-model.trim="$v.formData.client_name.$model"
-                                            required
-                                            :error-messages="ClientErrors"
-                                            :counter="100"
-                                            @input="$v.formData.client_name.$touch()"
-                                            @blur="$v.formData.client_name.$touch()"
-                                    ></v-text-field>
-                                </v-col>
-                                <v-col
-                                        cols="12"
-                                        :sm="12"
-                                        :md="5"
-                                        :lg="5"
+                                        :xs="4"
+                                        :sm="4"
+                                        :md="2"
+                                        :lg="2"
                                 >
                                     <v-menu
                                             v-model="dateStartShow"
@@ -90,13 +96,12 @@
                                         ></v-date-picker>
                                     </v-menu>
                                 </v-col>
-                            </v-row>
-                            <v-row>
                                 <v-col
                                         cols="12"
-                                        :sm="12"
-                                        :md="5"
-                                        :lg="5"
+                                        :xs="4"
+                                        :sm="4"
+                                        :md="2"
+                                        :lg="2"
                                 >
                                     <v-menu
                                             v-model="dateEndShow"
@@ -128,15 +133,15 @@
                                 </v-col>
                                 <v-col
                                         cols="12"
-                                        :xs="12"
-                                        :sm="12"
-                                        :md="2"
-                                        :lg="2"
+                                        :xs="4"
+                                        :sm="4"
+                                        :md="1"
+                                        :lg="1"
                                 >
-                                    <v-text-field
-                                            label="Estado"
-                                            v-model.trim="formData.status"
-                                    ></v-text-field>
+                                    <v-switch
+                                            v-model="formData.status"
+                                            :label="isActive"
+                                    ></v-switch>
                                 </v-col>
                             </v-row>
                             <v-row>
@@ -187,44 +192,35 @@
 <script>
 
     import Axios from 'axios';
-    import VFormBase from 'vuetify-form-base';
     import { required, maxLength, requiredIf, numeric, email } from 'vuelidate/lib/validators';
     import Alerts from "../../../components/Alerts";
     import moment from 'moment';
+    import Project from "../../../models/projects/ProjectModel";
+    import Clients from "../../../models/clients/ClientsCollection";
 
     export default {
         name: "ProjectModal",
         props: {
             showmodal : false,
             modaldata : {
-                type: Object,
+                type: Project,
                 required: false
             },
         },
         components:{
-            Alerts,
-            VFormBase
+            Alerts
         },
         data() {
             return {
                 showmodaltop : false,
                 isnew: true,
                 title: this.$t("app.newproject"),
-                formData:{
-                    id:0,
-                    name:'',
-                    client_id:'',
-                    client_name:'',
-                    date_start:0,
-                    date_end:0,
-                    status:'Activo',
-                    description:'',
-                    servicescount:0
-                },
+                formData : new Project(),
                 textAlert:false,
                 typeAlert:false,
                 dateStartShow: false,
                 dateEndShow: false,
+                clients: new Clients()
             }
         },
         validations: {
@@ -232,17 +228,16 @@
                 name: {
                     required,
                     maxLength: maxLength(100)
-                },
-                client_name: {
-                    required,
-                    maxLength: maxLength(20)
                 }
             }
         },
         created(){
-
+            this.getClients();
         },
         methods: {
+            setClientEvent(e){
+                console.log(e)
+            },
             closeModal(){
                 this.$emit('closeButtonModal',{});
             },
@@ -250,14 +245,14 @@
                 this.$set(this, 'textAlert', message);
                 this.$set(this, 'typeAlert', type);
             },
-            getClient(nif){
-                Axios.get('/client/nif/'+nif,
-                ).then(response => {
-                    if(response.data.count === 0 ) {
-                        this.saveClient();
-                    }else{
-                        this.setMessage('Cliente duplicado. No se puede guardar como nuevo. Debe editarse.', 'error');
-                    }
+            getClients() {
+                this.clients.fetch(
+                    {
+                        headers:{
+                            Authorization : 'Bearer '+this.$auth.token()
+                        }
+                    }).then(response => {
+                    this.$emit('loadeventchild',{'active' : false });
                 }).catch(e => {
                     console.log(e);
                 });
@@ -282,7 +277,6 @@
                     'clients/' + this.formData.id,
                     this.formData
                 ).then(response => {
-                    console.log(response);
                     if(response.data.status === 'ok' && response.data.id !== undefined){
                         this.setMessage('Registro guardado con éxito.', 'success');
                     }else{
@@ -323,19 +317,6 @@
                 }
                 return errors;
             },
-            ClientErrors () {
-                const errors = [];
-                if (!this.$v.formData.client_name.$dirty){
-                    return errors;
-                }
-                if(!this.$v.formData.client_name.maxLength){
-                    errors.push('El campo excede el tamaño máximo');
-                }
-                if(!this.$v.formData.client_name.required ){
-                    errors.push('Campo requerido');
-                }
-                return errors;
-            },
             DateStartFormated(){
                 return this.formatDate(this.formData.date_start);
             },
@@ -344,6 +325,12 @@
             },
             hasDateStart(){
                 return (this.formData.date_start === null);
+            },
+            isActive(){
+                if(this.formData.status){
+                    return "Activa";
+                }
+                return "Inactiva";
             }
         },
         watch:{

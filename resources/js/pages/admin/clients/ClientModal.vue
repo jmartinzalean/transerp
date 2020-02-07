@@ -6,6 +6,7 @@
                 hide-overlay
                 transition="dialog-bottom-transition"
                 scrollable
+                @input="closeModal"
         >
             <v-card class="repository_modal">
                 <v-toolbar
@@ -14,7 +15,7 @@
                 >
                     <v-btn
                             icon
-                            @click.stop="closeModal()"
+                            @click.stop="closeModal"
                     >
                         <v-icon>close</v-icon>
                     </v-btn>
@@ -112,7 +113,6 @@
                                         :lg="3"
                                 >
                                     <v-autocomplete
-                                            class="text-capitalize"
                                             v-model="formData.state"
                                             :items="statesItems"
                                             item-text="name"
@@ -131,7 +131,6 @@
                                         :lg="3"
                                 >
                                     <v-autocomplete
-                                            class="text-capitalize"
                                             v-model.trim="$v.formData.city.$model"
                                             :items="citiesItems"
                                             item-text="name"

@@ -20,7 +20,7 @@
         <v-divider></v-divider>
         <v-data-table
                 :headers="tablecolums"
-                :items="tablerows"
+                :items="projects.toArray()"
                 :search="search"
                 class="pd-30 c-pointer"
                 @click:row="showModal"
@@ -54,8 +54,8 @@
 <script>
 
     import ProjectModal from '../../../pages/admin/projects/ProjectModal';
-
-    import Axios from 'axios';
+    import Projects from '../../../models/projects/ProjectsCollection';
+    import Project from "../../../models/projects/ProjectModel";
 
     export default {
         name: "ProjectIndex",
@@ -115,49 +115,39 @@
                         filterable: true
                     }
                 ],
-                tablerows : [{}],
                 search : '',
-                modaldata : {},
-                ismodalactive : false
+                modaldata : new Project,
+                projects : new Projects(),
+                ismodalactive : false,
             };
         },
         created() {
             this.$emit('loadevent',{'active' : false });
             this.getRows();
-
         },
         methods : {
 
             getRows() {
-
-                Axios.get('/projects/',
-                ).then(response => {
-                    this.$set(this, 'tablerows', response.data.projects );
+                this.projects.fetch(
+                    {
+                        headers:{
+                            Authorization : 'Bearer '+this.$auth.token()
+                        }
+                    }).then(response => {
                     this.$emit('loadeventchild',{'active' : false });
                 }).catch(e => {
                     console.log(e);
                 });
-
             },
             showModal(e){
                 this.$emit('loadevent',{'active' : true });
-                this.$set(this, 'modaldata', e);
+                this.$set(this, 'modaldata', this.projects.find({'id':e.id}));
                 this.$set(this, 'ismodalactive', true);
 
             },
             showNewModal(){
                 this.$emit('loadevent',{'active' : true });
-                this.$set(this, 'modaldata', {
-                    id:0,
-                    name:'',
-                    client_id:'',
-                    client_name:'',
-                    date_start:0,
-                    date_end:0,
-                    status:'Activo',
-                    description:'',
-                    servicescount:0
-                });
+                this.$set(this, 'modaldata', new Project());
                 this.$set(this, 'ismodalactive', true);
             },
             closeModal(e){
