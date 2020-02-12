@@ -41,8 +41,6 @@
                                             item-value="id"
                                             label="Empresa/Sociedad/Autónomo"
                                             placeholder="Elije un cliente..."
-                                            return-object
-                                            @input="setClientEvent"
                                             :error-messages="formData.errors.client_id"
                                             required
                                     ></v-autocomplete>
@@ -56,13 +54,11 @@
                                 >
                                     <v-text-field
                                             label="Nombre Obra"
-                                            v-model.trim="$v.formData.name.$model"
+                                            v-model="formData.name"
                                             required
-                                            :error-messages="NameErrors"
+                                            :error-messages="formData.errors.name"
                                             :counter="20"
                                             :autofocus="true"
-                                            @input="$v.formData.name.$touch()"
-                                            @blur="$v.formData.name.$touch()"
                                     ></v-text-field>
                                 </v-col>
                                 <v-col
@@ -87,6 +83,7 @@
                                                     prepend-icon="event"
                                                     readonly
                                                     v-on="on"
+                                                    :error-messages="formData.errors.date_start"
                                             ></v-text-field>
                                         </template>
                                         <v-date-picker
@@ -120,6 +117,7 @@
                                                     readonly
                                                     :disabled="hasDateStart"
                                                     v-on="on"
+                                                    :error-messages="formData.errors.date_end"
                                             ></v-text-field>
                                         </template>
                                         <v-date-picker
@@ -141,6 +139,7 @@
                                     <v-switch
                                             v-model="formData.status"
                                             :label="isActive"
+                                            :error-messages="formData.errors.status"
                                     ></v-switch>
                                 </v-col>
                             </v-row>
@@ -177,7 +176,7 @@
                                         :lg="6"
                                         class="text-end"
                                 >
-                                    <v-btn class="primary" @click="submit" :disabled="$v.$invalid">Guardar</v-btn>
+                                    <v-btn class="primary" @click="submit">Guardar</v-btn>
                                     <v-btn class="secondary" @click.stop="closeModal">Cancelar</v-btn>
                                 </v-col>
                             </v-row>
@@ -192,7 +191,6 @@
 <script>
 
     import Axios from 'axios';
-    import { required, maxLength, requiredIf, numeric, email } from 'vuelidate/lib/validators';
     import Alerts from "../../../components/Alerts";
     import moment from 'moment';
     import Project from "../../../models/projects/ProjectModel";
@@ -223,14 +221,6 @@
                 clients: new Clients()
             }
         },
-        validations: {
-            formData : {
-                name: {
-                    required,
-                    maxLength: maxLength(100)
-                }
-            }
-        },
         created(){
             this.getClients();
         },
@@ -257,7 +247,7 @@
                     console.log(e);
                 });
             },
-            saveClient(){
+            saveProject(){
                 Axios.post(
                     'clients',
                     this.formData
@@ -272,29 +262,16 @@
                     console.log(e);
                 });
             },
-            updateClient(){
-                Axios.put(
-                    'clients/' + this.formData.id,
-                    this.formData
-                ).then(response => {
-                    if(response.data.status === 'ok' && response.data.id !== undefined){
-                        this.setMessage('Registro guardado con éxito.', 'success');
-                    }else{
-                        this.setMessage('Error en el guardado de registro, update', 'error');
+            submit () {
+                this.formData.save(                    {
+                    headers:{
+                        Authorization : 'Bearer '+this.$auth.token()
                     }
+                }).then(response=>{
+                    console.log(response);
                 }).catch(e => {
                     console.log(e);
                 });
-            },
-            submit () {
-                this.$v.$touch();
-                if (!this.$v.$invalid) {
-                    if(this.formData.id === 0){
-                        this.getClient(this.formData.tax_number);
-                    }else{
-                        this.updateClient();
-                    }
-                }
             },
             formatDate (date) {
                 if (!date){
@@ -304,19 +281,6 @@
             }
         },
         computed:{
-            NameErrors () {
-                const errors = [];
-                if (!this.$v.formData.name.$dirty){
-                    return errors;
-                }
-                if(!this.$v.formData.name.maxLength){
-                    errors.push('El campo excede el tamaño máximo');
-                }
-                if(!this.$v.formData.name.required ){
-                    errors.push('Campo requerido');
-                }
-                return errors;
-            },
             DateStartFormated(){
                 return this.formatDate(this.formData.date_start);
             },

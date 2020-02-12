@@ -33,6 +33,10 @@
                     {{ item.date_end | formatDayMonthYear }}
             </template>
 
+            <template v-slot:item.status="{ item }">
+                {{ item.status | activeInactive }}
+            </template>
+
             <template v-slot:item.servicescount="{ item }">
                 <v-chip class="teal accent-1 c-pointer">
                     <router-link :to="/services/+item.id">
@@ -116,7 +120,7 @@
                     }
                 ],
                 search : '',
-                modaldata : new Project,
+                modaldata : new Project({}, this.projects),
                 projects : new Projects(),
                 ismodalactive : false,
             };
@@ -147,7 +151,7 @@
             },
             showNewModal(){
                 this.$emit('loadevent',{'active' : true });
-                this.$set(this, 'modaldata', new Project());
+                this.$set(this, 'modaldata', new Project({}, this.projects));
                 this.$set(this, 'ismodalactive', true);
             },
             closeModal(e){

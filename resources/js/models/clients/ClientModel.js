@@ -48,8 +48,8 @@ class ClientModel extends Model{
 
     routes() {
         return {
-            fetch:  "/clients/{id}",
-            save:   "/clients"
+            fetch:  "api/clients/{id}",
+            save:   "api/clients"
         }
     }
 

@@ -41,6 +41,13 @@ Vue.filter('capitalize', function (value) {
     return value.charAt(0).toUpperCase() + value.slice(1)
 });
 
+Vue.filter('activeInactive', function (value) {
+    if(value === 1){
+        return 'Activo';
+    }
+    return 'Inactivo';
+});
+
 Vue.filter('subString', function (value) {
     if(!value){
         return '';
@@ -48,3 +55,4 @@ Vue.filter('subString', function (value) {
         return value.substr(0, 100) + ((value.length >= 100) ? '...' : '');
     }
 });
+

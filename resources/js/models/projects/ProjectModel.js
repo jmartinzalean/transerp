@@ -4,7 +4,13 @@ import {
     required,
     string,
     not,
-    min
+    min,
+    date,
+    after,
+    equals,
+    boolean,
+    isnull,
+    length
 } from 'vue-mc/validation'
 
 
@@ -19,7 +25,7 @@ class ProjectModel extends Model{
             client_name: "",
             date_start: null,
             date_end: null,
-            status: "",
+            status: 0,
             description: null,
             servicescount: 0
         }
@@ -29,23 +35,37 @@ class ProjectModel extends Model{
         return {
             id:   (id) => Number(id) || 0,
             name: String,
-            client_id:   (id) => Number(id) || 0,
-
+            client_id:   (client_id) => Number(client_id) || 0,
+            status : Number
         }
     }
 
     validation() {
         return {
             id:   integer.and(min(0)),
-            name: string.and(required),
-            client_id: integer.not(0)
+            name: required.and(string.and(length(1,20))),
+            client_id: required.and(integer.and(not(0))),
+            date_start: isnull.or(date),
+            date_end: isnull.or(date.and(after(this.date_start))),
+            status : boolean.or(equals(0).or(equals(1)))
+        }
+    }
+
+    options() {
+        return {
+            validateOnChange: true,
+            validateOnSave: true,
+            validateRecursively: true,
+            methods : {
+                update:  "PUT"
+            }
         }
     }
 
     routes() {
         return {
-            fetch:  "/projects/{id}",
-            save:   "/projects"
+            fetch:  "api/projects/{id}",
+            save:   "api/projects"
         }
     }
 

@@ -29,7 +29,7 @@ class ProjectsTransformer extends TransformerAbstract {
             'client_name' => ucwords($project->getClient()->getName()),
             'date_start' => $project->getDateStart(),
             'date_end' => $project->getDateEnd(),
-            'status' => ($project->isActive()) ? 'Activo' : 'Inactivo',
+            'status' => ($project->getStatus()),
             'description' => $project->getDescription(),
             'servicescount' => $project->countServices()
         ];
